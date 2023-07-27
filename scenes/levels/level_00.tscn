@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://18xtu8ekdjeq"]
+
+[ext_resource type="PackedScene" uid="uid://cuq00g3cscmvj" path="res://scenes/graphics/ground_1.tscn" id="1_thcig"]
+[ext_resource type="Script" path="res://scenes/levels/level_00.gd" id="1_u8k2i"]
+[ext_resource type="PackedScene" uid="uid://bcftk8ps3jee2" path="res://scenes/graphics/ground_2.tscn" id="2_dembx"]
+[ext_resource type="PackedScene" uid="uid://t7i00cs5fhh2" path="res://scenes/graphics/ground_3.tscn" id="4_sg30j"]
+[ext_resource type="PackedScene" uid="uid://dbb6e6qdekknf" path="res://scenes/graphics/ground_4.tscn" id="5_gcsv4"]
+[ext_resource type="PackedScene" uid="uid://dldppwbx7dai1" path="res://scenes/graphics/ground_5.tscn" id="6_2co4q"]
+[ext_resource type="PackedScene" uid="uid://dnglkkrujg8ih" path="res://scenes/player/player.tscn" id="7_s04m6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nika5"]
+
+[node name="Level01" type="Node2D"]
+script = ExtResource("1_u8k2i")
+ground_speed = 900.0
+grounds = [NodePath("Grounds/Ground1"), NodePath("Grounds/Ground2"), NodePath("Grounds/Ground3"), NodePath("Grounds/Ground4"), NodePath("Grounds/Ground5")]
+
+[node name="Grounds" type="Node" parent="."]
+
+[node name="Ground1" parent="Grounds" instance=ExtResource("1_thcig")]
+position = Vector2(0, 500)
+
+[node name="Ground2" parent="Grounds" instance=ExtResource("2_dembx")]
+position = Vector2(0, -100)
+
+[node name="Ground3" parent="Grounds" instance=ExtResource("4_sg30j")]
+position = Vector2(4, -280)
+
+[node name="Ground4" parent="Grounds" instance=ExtResource("5_gcsv4")]
+position = Vector2(4, -280)
+
+[node name="Ground5" parent="Grounds" instance=ExtResource("6_2co4q")]
+position = Vector2(4, -280)
+
+[node name="SpawnGroundArea" type="Area2D" parent="."]
+position = Vector2(-2720, 378)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnGroundArea"]
+scale = Vector2(2, 50)
+shape = SubResource("RectangleShape2D_nika5")
+
+[node name="DisableArea" type="Area2D" parent="."]
+position = Vector2(-4500, 378)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DisableArea"]
+scale = Vector2(2, 50)
+shape = SubResource("RectangleShape2D_nika5")
+
+[node name="Player" parent="." instance=ExtResource("7_s04m6")]
+position = Vector2(219, 443)
+
+[connection signal="area_entered" from="SpawnGroundArea" to="." method="_on_spawn_ground_area_area_entered"]
+[connection signal="area_entered" from="DisableArea" to="." method="_on_disable_area_area_entered"]
